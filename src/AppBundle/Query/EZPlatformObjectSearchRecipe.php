@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
-class LocationSearchRecipe
+class EZPlatformObjectSearchRecipe
 {
     /** @var Criterion[] $criterion */
     public $criterions;

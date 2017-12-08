@@ -2,11 +2,11 @@
 
 namespace AppBundle\Query;
 
-use AppBundle\Query\LocationSearchRecipe;
+use AppBundle\Query\EZPlatformObjectSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
-class ChildrenLocationSearchRecipe extends LocationSearchRecipe
+class ChildrenSearchRecipe extends EZPlatformObjectSearchRecipe
 {
     /** @var integer $parentLocationId */
     public $parentLocationId;

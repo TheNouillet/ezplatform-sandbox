@@ -1,5 +1,5 @@
 services:
-  search_service:
-    class: AppBundle\Service\SearchService
+  search.location:
+    class: AppBundle\Service\LocationSearchService
     arguments:
       - '@ezpublish.api.repository'

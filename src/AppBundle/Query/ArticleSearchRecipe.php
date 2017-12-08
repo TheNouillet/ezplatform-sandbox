@@ -2,11 +2,11 @@
 
 namespace AppBundle\Query;
 
-use AppBundle\Query\ChildrenLocationSearchRecipe;
+use AppBundle\Query\ChildrenSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 
-class ArticleSearchRecipe extends ChildrenLocationSearchRecipe
+class ArticleSearchRecipe extends ChildrenSearchRecipe
 {
     /** @var boolean $onlyPremium */
     public $onlyPremium;

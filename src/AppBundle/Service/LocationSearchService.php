@@ -3,14 +3,14 @@
 namespace AppBundle\Service;
 
 use Pagerfanta\Pagerfanta;
-use AppBundle\Query\LocationSearchRecipe;
+use AppBundle\Query\EZPlatformObjectSearchRecipe;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchAdapter;
 
-class SearchService
+class LocationSearchService
 {
     /** @var Repository $repository */
     protected $repository;
@@ -23,10 +23,10 @@ class SearchService
     /**
      * Prépare la requête depuis une recette
      *
-     * @param LocationSearchRecipe $recipe
+     * @param EZPlatformObjectSearchRecipe $recipe
      * @return LocationQuery
      */
-    protected function prepareLocationQuery(LocationSearchRecipe $recipe)
+    protected function prepareLocationQuery(EZPlatformObjectSearchRecipe $recipe)
     {
         $query = new LocationQuery();
         $criterions = $recipe->getCriterions();
@@ -60,10 +60,10 @@ class SearchService
     /**
      * Recherche des locations selon une recette
      *
-     * @param LocationSearchRecipe $recipe
+     * @param EZPlatformObjectSearchRecipe $recipe
      * @return Location[]|null
      */
-    public function searchLocations(LocationSearchRecipe $recipe)
+    public function search(EZPlatformObjectSearchRecipe $recipe)
     {
         $query = $this->prepareLocationQuery($recipe);
         $searchResult = $this->repository->getSearchService()->findLocations($query);
@@ -79,12 +79,12 @@ class SearchService
     /**
      * Recherche paginée des locations selon une recette
      *
-     * @param LocationSearchRecipe $recipe
+     * @param EZPlatformObjectSearchRecipe $recipe
      * @param integer $page
      * @param integer $limit
      * @return Pagerfanta
      */
-    public function searchPaginatedLocations(LocationSearchRecipe $recipe, $page, $limit)
+    public function searchPaginated(EZPlatformObjectSearchRecipe $recipe, $page, $limit)
     {
         $query = $this->prepareLocationQuery($recipe);
         $adapter = new LocationSearchAdapter($query, $this->repository->getSearchService());
@@ -98,19 +98,25 @@ class SearchService
     /**
      * Récupère le nombre de location selon une recette
      *
-     * @param LocationSearchRecipe $recipe
+     * @param EZPlatformObjectSearchRecipe $recipe
      * @return integer
      */
-    public function searchLocationCount(LocationSearchRecipe $recipe)
+    public function searchCount(EZPlatformObjectSearchRecipe $recipe)
     {
         $query = $this->prepareLocationQuery($recipe);
         $searchResult = $this->repository->getSearchService()->findLocations($query);
         return $searchResult->totalCount;
     }
 
-    // TODO: Facets
-    // public function FunctionName(Type $var = null)
-    // {
-    //     # code...
-    // }
+    /**
+     * Récupère les facets d'une recherche selon une recette
+     *
+     * @param EZPlatformObjectSearchRecipe $recipe
+     * @return array
+     * @throws Exception
+     */
+    public function searchFacets(EZPlatformObjectSearchRecipe $recipe)
+    {
+        throw new \Exception("not implemented");
+    }
 }
