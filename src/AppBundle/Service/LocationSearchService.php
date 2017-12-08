@@ -3,12 +3,15 @@
 namespace AppBundle\Service;
 
 use Pagerfanta\Pagerfanta;
-use AppBundle\Query\EZPlatformObjectSearchRecipe;
+use Pagerfanta\Adapter\AdapterInterface;
 use eZ\Publish\API\Repository\Repository;
+use AppBundle\Query\EZPlatformObjectSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchAdapter;
+use eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
 
 class LocationSearchService
 {
@@ -58,6 +61,22 @@ class LocationSearchService
     }
 
     /**
+     * Prépare la pagination selon un adapter
+     *
+     * @param AdapterInterface $adapter
+     * @param integer $page
+     * @param integer $limit
+     * @return Pagerfanta
+     */
+    protected function preparePagination($adapter, $page, $limit)
+    {
+        $pager = new Pagerfanta($adapter);
+        $pager->setMaxPerPage($limit);
+        $pager->setCurrentPage($page);
+        return $pager;
+    }
+
+    /**
      * Recherche des locations selon une recette
      *
      * @param EZPlatformObjectSearchRecipe $recipe
@@ -77,6 +96,19 @@ class LocationSearchService
     }
 
     /**
+     * Renvoie les SearchHits selon une recette
+     *
+     * @param EZPlatformObjectSearchRecipe $recipe
+     * @return SearchHit
+     */
+    public function searchHits(EZPlatformObjectSearchRecipe $recipe)
+    {
+        $query = $this->prepareLocationQuery($recipe);
+        $searchResult = $this->repository->getSearchService()->findLocations($query);
+        return $searchResult->searchHits;
+    }
+
+    /**
      * Recherche paginée des locations selon une recette
      *
      * @param EZPlatformObjectSearchRecipe $recipe
@@ -88,11 +120,22 @@ class LocationSearchService
     {
         $query = $this->prepareLocationQuery($recipe);
         $adapter = new LocationSearchAdapter($query, $this->repository->getSearchService());
-        $pager = new Pagerfanta($adapter);
-        $pager->setMaxPerPage($limit);
-        $pager->setCurrentPage($page);
+        return $this->preparePagination($adapter, $page, $limit);
+    }
 
-        return $pager;
+    /**
+     * Recherche paginée des SearchHits selon une recette
+     *
+     * @param EZPlatformObjectSearchRecipe $recipe
+     * @param integer $page
+     * @param integer $limit
+     * @return Pagerfanta
+     */
+    public function searchHitsPaginated(EZPlatformObjectSearchRecipe $recipe, $page, $limit)
+    {
+        $query = $this->prepareLocationQuery($recipe);
+        $adapter = new LocationSearchHitAdapter($query, $this->repository->getSearchService());
+        return $this->preparePagination($adapter, $page, $limit);
     }
 
     /**
