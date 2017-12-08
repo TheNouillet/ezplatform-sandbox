@@ -2,20 +2,21 @@
 
 namespace AppBundle\Service;
 
-use eZ\Publish\API\Repository\Repository;
+use Pagerfanta\Pagerfanta;
 use AppBundle\Query\LocationSearchRecipe;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchAdapter;
-use Pagerfanta\Pagerfanta;
 
 class SearchService
 {
     /** @var Repository $repository */
     protected $repository;
 
-    public function __construct($repository) {
+    public function __construct($repository)
+    {
         $this->repository = $repository;
     }
 
@@ -29,27 +30,27 @@ class SearchService
     {
         $query = new LocationQuery();
         $criterions = $recipe->getCriterions();
-        if(! empty($criterions)) {
+        if (!empty($criterions)) {
             $query->filter = new Criterion\LogicalAnd($criterions);
         }
 
         $sortClauses = $recipe->getSortClauses();
-        if(! empty($sortClauses)) {
+        if (!empty($sortClauses)) {
             $query->sortClauses = $sortClauses;
         }
 
         $facetBuilders = $recipe->getFacetBuilders();
-        if(! empty($facetBuilders)) {
+        if (!empty($facetBuilders)) {
             $query->facetBuilders = $facetBuilders;
         }
 
         $limit = $recipe->getLimit();
-        if($limit) {
+        if ($limit) {
             $query->limit = $limit;
         }
 
         $offset = $recipe->getOffset();
-        if($offset) {
+        if ($offset) {
             $query->offset = $offset;
         }
 
@@ -66,11 +67,10 @@ class SearchService
     {
         $query = $this->prepareLocationQuery($recipe);
         $searchResult = $this->repository->getSearchService()->findLocations($query);
-        if(count($searchResult->searchHits)) {
-            $locations = \array_map(function($searchHit){
+        if (count($searchResult->searchHits)) {
+            return \array_map(function ($searchHit) {
                 return $searchHit->valueObject;
             }, $searchResult->searchHits);
-            return $locations;
         } else {
             return null;
         }

@@ -6,7 +6,6 @@ use AppBundle\Query\LocationSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
-
 class ChildrenLocationSearchRecipe extends LocationSearchRecipe
 {
     /** @var integer $parentLocationId */
@@ -15,7 +14,8 @@ class ChildrenLocationSearchRecipe extends LocationSearchRecipe
     /** @var string[]|string $contentTypeIdentifiers */
     public $contentTypeIdentifiers;
 
-    public function __construct($parentLocationId, $contentTypeIdentifiers) {
+    public function __construct($parentLocationId, $contentTypeIdentifiers)
+    {
         parent::__construct();
         $this->parentLocationId = $parentLocationId;
         $this->contentTypeIdentifiers = $contentTypeIdentifiers;
@@ -25,7 +25,7 @@ class ChildrenLocationSearchRecipe extends LocationSearchRecipe
     {
         return array(
             new Criterion\ParentLocationId($this->parentLocationId),
-            new Criterion\ContentTypeIdentifier($this->contentTypeIdentifiers)
+            new Criterion\ContentTypeIdentifier($this->contentTypeIdentifiers),
         );
     }
 
@@ -33,7 +33,7 @@ class ChildrenLocationSearchRecipe extends LocationSearchRecipe
     {
         return array(
             new SortClause\Location\Priority(),
-            new SortClause\ContentName()
+            new SortClause\ContentName(),
         );
     }
 }

@@ -2,10 +2,9 @@
 
 namespace AppBundle\Query;
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
+use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
 class LocationSearchRecipe
 {
@@ -24,7 +23,8 @@ class LocationSearchRecipe
     /** @var integer $offset */
     public $offset;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->criterions = array();
         $this->sortClauses = array();
         $this->facetBuilders = array();

@@ -6,13 +6,13 @@ use AppBundle\Query\ChildrenLocationSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
 
-
 class ArticleSearchRecipe extends ChildrenLocationSearchRecipe
 {
     /** @var boolean $onlyPremium */
     public $onlyPremium;
 
-    public function __construct($parentLocationId, $onlyPremium = false) {
+    public function __construct($parentLocationId, $onlyPremium = false)
+    {
         parent::__construct($parentLocationId, "article");
         $this->onlyPremium = $onlyPremium;
     }
@@ -20,7 +20,7 @@ class ArticleSearchRecipe extends ChildrenLocationSearchRecipe
     public function getCriterions()
     {
         $criterions = parent::getCriterions();
-        if($this->onlyPremium) {
+        if ($this->onlyPremium) {
             $criterions[] = new Criterion\Field("is_premium", Operator::EQ, true);
         }
         return $criterions;
