@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Query\ArticleSearchRecipe;
-use AppBundle\Query\SubtreeSearchRecipe;
-use AppBundle\Query\ChildrenSearchRecipe;
+use AppBundle\Query\Recipe\ArticleSearchRecipe;
+use AppBundle\Query\Recipe\SubtreeSearchRecipe;
+use AppBundle\Query\Recipe\ChildrenSearchRecipe;
 use AppBundle\Service\LocationSearchService;
 use eZ\Bundle\EzPublishCoreBundle\Controller;
-use AppBundle\Query\EZPlatformObjectSearchRecipe;
+use AppBundle\Query\Recipe\EZPlatformObjectSearchRecipe;
 
 class DefaultController extends Controller
 {
@@ -19,6 +19,7 @@ class DefaultController extends Controller
         $locations = $search->search(new ArticleSearchRecipe($locationId));
         $pager = $search->searchPaginated(new ArticleSearchRecipe($locationId), 1, 2);
         $resultCount = $search->searchCount(new ArticleSearchRecipe($locationId));
+        $facets = $search->searchFacets(new ArticleSearchRecipe($locationId));
 
         $location = $this->getRepository()->getLocationService()->loadLocation($locationId);
         $subtree = $search->search(new SubtreeSearchRecipe($location, "article"));
@@ -27,6 +28,7 @@ class DefaultController extends Controller
             "locations" => $locations,
             "locationPager" => $pager,
             "locationResultCount" => $resultCount,
+            "facets" => $facets,
             "subtree" => $subtree
         );
 

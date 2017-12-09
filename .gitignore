@@ -51,3 +51,4 @@ behat.yml
 auth.json
 ide-twig.json
 solr/
+.vscode/

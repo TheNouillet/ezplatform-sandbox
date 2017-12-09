@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Query;
+namespace AppBundle\Query\Recipe;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;

@@ -3,3 +3,8 @@ services:
     class: AppBundle\Service\LocationSearchService
     arguments:
       - '@ezpublish.api.repository'
+  field_facet_builder_visitor:
+    class: AppBundle\Query\FacetBuilderVisitor\FieldFacetBuilderVisitor
+    tags:
+      - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
+      - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

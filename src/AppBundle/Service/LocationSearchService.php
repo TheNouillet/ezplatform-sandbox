@@ -5,7 +5,7 @@ namespace AppBundle\Service;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\AdapterInterface;
 use eZ\Publish\API\Repository\Repository;
-use AppBundle\Query\EZPlatformObjectSearchRecipe;
+use AppBundle\Query\Recipe\EZPlatformObjectSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
@@ -156,10 +156,11 @@ class LocationSearchService
      *
      * @param EZPlatformObjectSearchRecipe $recipe
      * @return array
-     * @throws Exception
      */
     public function searchFacets(EZPlatformObjectSearchRecipe $recipe)
     {
-        throw new \Exception("not implemented");
+        $query = $this->prepareLocationQuery($recipe);
+        $searchResult = $this->repository->getSearchService()->findLocations($query);
+        return $searchResult->facets;
     }
 }

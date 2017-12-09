@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Query;
+namespace AppBundle\Query\Recipe;
 
-use AppBundle\Query\EZPlatformObjectSearchRecipe;
+use AppBundle\Query\Recipe\EZPlatformObjectSearchRecipe;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 
